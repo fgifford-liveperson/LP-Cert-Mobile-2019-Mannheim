@@ -30,18 +30,18 @@ public class MyAccountConversation implements Runnable, InitLivePersonCallBack {
     private ConversationViewParams conversationViewParams;
 
     /**
-     * Convenience constructor
+     * Convenience constructor.
      * @param hostContext the context of the activity in which the screen is to run
      * @param applicationStorage the singleton holding the shared storage for the app
      */
     public MyAccountConversation(Activity hostContext, ApplicationStorage applicationStorage) {
         this.hostContext = hostContext;
         this.applicationStorage = applicationStorage;
-        this.applicationInstance = (MobileMessagingExerciseApplication)hostContext.getApplication();
+        this.applicationInstance = (MobileMessagingExerciseApplication) hostContext.getApplication();
     }
 
     /**
-     * Run the My Account screen as a LivePerson conversation
+     * Run the My Account screen as a LivePerson conversation.
      */
     @Override
     public void run() {
@@ -53,7 +53,7 @@ public class MyAccountConversation implements Runnable, InitLivePersonCallBack {
     }
 
     /**
-     * Set up and show the LivePerson conversation associated with the My Account screen
+     * Set up and show the LivePerson conversation associated with the My Account screen.
      * Invoked if initialization of LivePerson is successful
      */
     @Override
@@ -73,7 +73,7 @@ public class MyAccountConversation implements Runnable, InitLivePersonCallBack {
     }
 
     /**
-     * Report an initialization error
+     * Report an initialization error.
      * Invoked if initialization of LivePerson fails
      * @param e the exception associated with the failure
      */

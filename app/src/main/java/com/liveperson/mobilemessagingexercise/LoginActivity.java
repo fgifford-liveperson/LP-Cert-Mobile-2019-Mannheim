@@ -16,7 +16,7 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONObject;
 
 /********************************************************************************
- * Class for the activity associated with the application Login screen
+ * Class for the activity associated with the application Login screen.
  * NOTE: This class also provides the listeners for click events for the controls
  * on the screen and for the response from the authentication process
  *******************************************************************************/
@@ -40,7 +40,7 @@ public class LoginActivity extends MobileMessagingExerciseActivity
     }
 
     /**
-     * Android callback invoked as the options menu is created
+     * Android callback invoked as the options menu is created.
      * @param menu the options menu in the toolbar
      * @returns true, if the menu is to be displayed, and false otherwise
      */
@@ -53,7 +53,7 @@ public class LoginActivity extends MobileMessagingExerciseActivity
     }
 
     /**
-     * Android callback invoked as an option is selected from the options menu
+     * Android callback invoked as an option is selected from the options menu.
      * @param item the selected menu item
      * @return true if the menu item has been processed here, and false otherwise
      */
@@ -94,7 +94,7 @@ public class LoginActivity extends MobileMessagingExerciseActivity
             //Send the authentication POST request
             //TODO Phase 2: Send the HTTP request to log the user in to the Brand Server
         }
-        catch(Exception e) {
+        catch (Exception e) {
             Log.e(TAG, e.getMessage());
             showToast(e.getMessage());
         }
@@ -103,7 +103,7 @@ public class LoginActivity extends MobileMessagingExerciseActivity
     }
 
     /**
-     * Handle click events for controls on the Login screen
+     * Handle click events for controls on the Login screen.
      * @param view the control on which the event occurred
      */
     public void onClick(View view) {
@@ -147,7 +147,7 @@ public class LoginActivity extends MobileMessagingExerciseActivity
     }
 
     /**
-     * Process responses from login requests that failed
+     * Process responses from login requests that failed.
      * @param error the error information associated with the failure
      */
     @Override

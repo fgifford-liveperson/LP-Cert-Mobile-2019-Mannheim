@@ -28,15 +28,16 @@ public class ApplicationStorage {
     private ApplicationStorage() {
         if (applicationStorage != null) {
             //Allow only a single instance
-            throw new RuntimeException("It's not possible to construct instances of this class." +
-                    "Use the getInstance() method instead.");
+            throw new RuntimeException("It's not possible to construct instances of this class."
+                    + "Use the getInstance() method instead.");
         }
     }
 
-    /*
-     * Factory method to return an instance
+    /**
+     * Factory method to return an instance.
+     * @return instance of class.
      */
-    public synchronized static ApplicationStorage getInstance() {
+    public static synchronized ApplicationStorage getInstance() {
         if (applicationStorage == null) {
             // Create the singleton, and set up the shared data for the application
             applicationStorage = new ApplicationStorage();

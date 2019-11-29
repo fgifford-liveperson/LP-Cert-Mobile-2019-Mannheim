@@ -12,7 +12,7 @@ import com.liveperson.mobilemessagingexercise.model.ApplicationStorage;
 import com.liveperson.mobilemessagingexercise.Conversations.MyAccountConversation;
 
 /******************************************************************
- * Parent class providing common capabilities for the activities
+ * Parent class providing common capabilities for the activities.
  * in the Mobile Messaging Exercise
  *****************************************************************/
 public class MobileMessagingExerciseActivity extends AppCompatActivity {
@@ -23,12 +23,12 @@ public class MobileMessagingExerciseActivity extends AppCompatActivity {
     private ClearRunner clearRunner;
 
     /**
-     * Android callback invoked as the activity is created
+     * Android callback invoked as the activity is created.
      * @param savedInstanceState any instance state data saved in a previous execution
      */
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        applicationInstance = (MobileMessagingExerciseApplication)getApplication();
+        applicationInstance = (MobileMessagingExerciseApplication) getApplication();
         applicationStorage = ApplicationStorage.getInstance();
 
         //Create an instance of the class that clears conversations and runs an activity
