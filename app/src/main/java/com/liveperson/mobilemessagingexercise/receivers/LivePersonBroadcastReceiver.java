@@ -8,19 +8,22 @@ import android.util.Log;
 import com.liveperson.api.LivePersonIntents;
 import com.liveperson.api.sdk.LPConversationData;
 import com.liveperson.api.sdk.PermissionType;
+import com.liveperson.infra.LPAuthenticationParams;
 import com.liveperson.messaging.TaskType;
 import com.liveperson.messaging.model.AgentData;
+import com.liveperson.messaging.sdk.api.LivePerson;
 import com.liveperson.mobilemessagingexercise.MobileMessagingExerciseApplication;
+import com.liveperson.mobilemessagingexercise.model.ApplicationStorage;
 
 /****************************************************
- * Class to receive events broadcast by LivePerson
+ * Class to receive events broadcast by LivePerson.
  ***************************************************/
 public class LivePersonBroadcastReceiver extends BroadcastReceiver {
     private static final String TAG = LivePersonBroadcastReceiver.class.getSimpleName();
     private MobileMessagingExerciseApplication applicationInstance;
 
     /**
-     * Constuctor
+     * Constuctor.
      * @param applicationInstance the instance of the application for which this is the receiver
      */
     public LivePersonBroadcastReceiver(MobileMessagingExerciseApplication applicationInstance) {
@@ -28,12 +31,12 @@ public class LivePersonBroadcastReceiver extends BroadcastReceiver {
     }
 
     /**
-     * Invoked when an event, broadcast by LivePerson, is received
+     * Invoked when an event, broadcast by LivePerson, is received.
      * @param context the application context in which the event was raised
      * @param intent the intent broadcast by LivePerson
      */
     @Override
-    public void onReceive (Context context, Intent intent) {
+    public void onReceive(Context context, Intent intent) {
         Log.d(TAG, "Got LP intent event with action " + intent.getAction());
 
         //Route the event to the appropriate method
@@ -120,8 +123,8 @@ public class LivePersonBroadcastReceiver extends BroadcastReceiver {
      */
     private void onAgentAvatarTapped(Intent intent) {
         AgentData agentData = LivePersonIntents.getAgentData(intent);
-        showToast("Agent Avatar Tapped: " + agentData.mFirstName +
-                                      " " + agentData.mLastName);
+        showToast("Agent Avatar Tapped: " + agentData.mFirstName
+                + " " + agentData.mLastName);
     }
 
     /**
@@ -173,8 +176,8 @@ public class LivePersonBroadcastReceiver extends BroadcastReceiver {
      */
     private void onConversationResolved(Intent intent) {
         LPConversationData conversationData = LivePersonIntents.getLPConversationData(intent);
-        showToast("Conversation started " + conversationData.getId() +
-                " reason " + conversationData.getCloseReason());
+        showToast("Conversation started " + conversationData.getId()
+                + " reason " + conversationData.getCloseReason());
     }
 
     /**
@@ -183,8 +186,8 @@ public class LivePersonBroadcastReceiver extends BroadcastReceiver {
      */
     private void onConversationStarted(Intent intent) {
         LPConversationData conversationData = LivePersonIntents.getLPConversationData(intent);
-        showToast("Conversation started " + conversationData.getId() +
-                " reason " + conversationData.getCloseReason());
+        showToast("Conversation started " + conversationData.getId()
+                + " reason " + conversationData.getCloseReason());
     }
 
     /**
@@ -243,10 +246,10 @@ public class LivePersonBroadcastReceiver extends BroadcastReceiver {
      * Process the Token Expired Event
      * @param intent the associated event
      */
-    //TODO Skillset: check whether this is only for OAuth token, and not JWT
     private void onTokenExpired(Intent intent) {
         showToast("Token Expired");
-        //LivePerson.reconnect(new LPAuthenticationParams().setAuthKey(ApplicationStorage.getInstance().getAuthCode()));
+        LivePerson.reconnect(new LPAuthenticationParams().setAuthKey(
+                ApplicationStorage.getInstance().getAuthCode()));
 
     }
 
@@ -257,8 +260,8 @@ public class LivePersonBroadcastReceiver extends BroadcastReceiver {
     private void onUserDeniedPermission(Intent intent) {
         PermissionType permissionType = LivePersonIntents.getPermissionType(intent);
         boolean doNotShowAgainMarked = LivePersonIntents.getPermissionDoNotShowAgainMarked(intent);
-        showToast("User Denied Permission: " + permissionType.name() +
-                " doNotShowAgainMarked = " + doNotShowAgainMarked);
+        showToast("User Denied Permission: " + permissionType.name()
+                + " doNotShowAgainMarked = " + doNotShowAgainMarked);
     }
 
     /**

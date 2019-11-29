@@ -11,7 +11,7 @@ import android.widget.EditText;
 import com.liveperson.mobilemessagingexercise.model.ApplicationStorage;
 
 /******************************************************************************
- * Class for the activity associated with the application Welcome screen
+ * Class for the activity associated with the application Welcome screen.
  * NOTE: This class also provides the listener for click events on the screen
  *****************************************************************************/
 public class WelcomeActivity extends MobileMessagingExerciseActivity implements View.OnClickListener {
@@ -50,7 +50,7 @@ public class WelcomeActivity extends MobileMessagingExerciseActivity implements 
     }
 
     /**
-     * Android callback invoked as the options menu is created
+     * Android callback invoked as the options menu is created.
      * @param menu the options menu in the toolbar
      * @returns true, if the menu is to be displayed, and false otherwise
      */
@@ -63,7 +63,7 @@ public class WelcomeActivity extends MobileMessagingExerciseActivity implements 
     }
 
     /**
-     * Android callback invoked as an option is selected from the options menu
+     * Android callback invoked as an option is selected from the options menu.
      * @param item the selected menu item
      * @return true if the menu item has been processed here, and false otherwise
      */
@@ -102,11 +102,11 @@ public class WelcomeActivity extends MobileMessagingExerciseActivity implements 
     }
 
     /**
-     * Handle click events for controls on the Welcome screen
+     * Handle click events for controls on the Welcome screen.
      * @param view the control on which the event occurred
      */
     public void onClick(View view) {
-        switch(view.getId()) {
+        switch (view.getId()) {
         //Process clicks on the My Account button
         case R.id.my_account_button:
             if (getApplicationStorage().isLoggedIn()) {
