@@ -116,6 +116,265 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "Get the films",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{host}}/films",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"films"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get films by Genres",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{host}}/films?Genre=Adventure&Genre=Sci-Fi",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"films"
+					],
+					"query": [
+						{
+							"key": "Genre",
+							"value": "Adventure"
+						},
+						{
+							"key": "Genre",
+							"value": "Sci-Fi"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get films by Genre and Stars",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{host}}/films?Genre=Adventure&Genre=Sci-Fi&Stars=Ben Kingsley",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"films"
+					],
+					"query": [
+						{
+							"key": "Genre",
+							"value": "Adventure"
+						},
+						{
+							"key": "Genre",
+							"value": "Sci-Fi"
+						},
+						{
+							"key": "Stars",
+							"value": "Ben Kingsley"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get films by Studio",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{host}}/films?Studio=BV",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"films"
+					],
+					"query": [
+						{
+							"key": "Studio",
+							"value": "BV"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get films by Title fragment",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{host}}/films?Title=Avengers",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"films"
+					],
+					"query": [
+						{
+							"key": "Title",
+							"value": "Avengers"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get films by Decade",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{host}}/films?Genre=Adventure&Genre=Sci-Fi",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"films"
+					],
+					"query": [
+						{
+							"key": "Genre",
+							"value": "Adventure"
+						},
+						{
+							"key": "Genre",
+							"value": "Sci-Fi"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Widget page for 982373",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{host}}/widgetPage?userAccountNumber=982373",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"widgetPage"
+					],
+					"query": [
+						{
+							"key": "userAccountNumber",
+							"value": "982373"
+						}
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }
