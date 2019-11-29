@@ -1,7 +1,6 @@
 package com.liveperson.mobilemessagingexercise;
 
 import android.app.Application;
-
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import android.util.Log;
 import android.widget.Toast;
@@ -11,7 +10,7 @@ import com.liveperson.mobilemessagingexercise.model.ApplicationStorage;
 import com.liveperson.mobilemessagingexercise.receivers.LivePersonBroadcastReceiver;
 
 /******************************************************************
- * The main application class for the Mobile Messaging Exercise
+ * The main application class for the Mobile Messaging Exercise.
  *****************************************************************/
 public class MobileMessagingExerciseApplication extends Application {
 
@@ -22,10 +21,10 @@ public class MobileMessagingExerciseApplication extends Application {
     private LivePersonBroadcastReceiver livePersonBroadcastReceiver;
 
     /**
-     * Android callback invoked as the application is created
+     * Android callback invoked as the application is created.
      */
     @Override
-    public void onCreate () {
+    public void onCreate() {
         super.onCreate();
         applicationStorage = ApplicationStorage.getInstance();
 
@@ -43,13 +42,13 @@ public class MobileMessagingExerciseApplication extends Application {
     }
 
     /**
-     * Display a pop up toast message
+     * Display a pop up toast message.
      * @param message the text of the message to be shown
      *
      * If showToastOnCallback is false, the message is logged instead
      */
     public void showToast(String message) {
-        if (showToastOnCallback){
+        if (showToastOnCallback) {
             //Show the message as a popup
             Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
         }

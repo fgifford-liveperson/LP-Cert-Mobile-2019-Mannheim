@@ -22,6 +22,7 @@ import com.liveperson.mobilemessagingexercise.model.ApplicationStorage;
 
 import java.util.Map;
 
+/** Service for handling Firebase push notifications. */
 public class LpFirebaseMessagingService extends FirebaseMessagingService {
     private static final String TAG = LpFirebaseMessagingService.class.getSimpleName();
 
@@ -31,13 +32,14 @@ public class LpFirebaseMessagingService extends FirebaseMessagingService {
     private UnreadMessagesHandler unreadMessagesHandler;
     private PushRegistrationHandler pushRegistrationHandler;
 
+    /** Constructor. */
     public LpFirebaseMessagingService() {
         super();
         Log.d(TAG, "Constructor called");
     }
 
     /**
-     * Android callback invoked as the service is created
+     * Android callback invoked as the service is created.
      */
     @Override
     public void onCreate() {
@@ -45,14 +47,14 @@ public class LpFirebaseMessagingService extends FirebaseMessagingService {
         super.onCreate();
 
         //Link to the main application
-        applicationInstance = (MobileMessagingExerciseApplication)getApplication();
+        applicationInstance = (MobileMessagingExerciseApplication) getApplication();
         applicationStorage = ApplicationStorage.getInstance();
         unreadMessagesHandler = new UnreadMessagesHandler();
         pushRegistrationHandler = new PushRegistrationHandler();
     }
 
     /**
-     * Android callback invoked when a push message is received
+     * Android callback invoked when a push message is received.
      * @param remoteMessage the push message
      */
     @Override
@@ -62,7 +64,7 @@ public class LpFirebaseMessagingService extends FirebaseMessagingService {
         //Retrieve the message payload, if any
         Map<String, String> messageData = remoteMessage.getData();
 
-        if (messageData.size() > 0) {
+        if (!messageData.isEmpty()) {
             //The message does have a payload, so log the details
             Log.d(TAG, "Message data payload: ");
             for (Map.Entry<String, String> entry : messageData.entrySet()) {
@@ -83,7 +85,7 @@ public class LpFirebaseMessagingService extends FirebaseMessagingService {
     }
 
     /**
-     * Process the arrival of an updated Firebase FCM push message token
+     * Process the arrival of an updated Firebase FCM push message token.
      * @param fcmToken the new Firebase FCM push message token
      */
     @Override
@@ -113,7 +115,7 @@ public class LpFirebaseMessagingService extends FirebaseMessagingService {
                 break;
         }
 
-        return(getLeString(R.string.youHave) + messageNumberStr + unreadText);
+        return getLeString(R.string.youHave) + messageNumberStr + unreadText;
     }
 
     /**
@@ -169,11 +171,14 @@ public class LpFirebaseMessagingService extends FirebaseMessagingService {
                     .setDefaults(Notification.DEFAULT_SOUND | Notification.DEFAULT_LIGHTS)
                     .setSmallIcon(R.mipmap.ic_launcher)
                     .setNumber(pushMessage.getCurrentUnreadMessagesCounter())
-                    .setCategory(Notification.CATEGORY_MESSAGE)
                     .setPriority(Notification.PRIORITY_HIGH)
                     .setStyle(new Notification.InboxStyle()
-                            //TODO Phase 4 Add a line containing the message text from the agent
-                            .addLine(createUnreadMessageText(unreadMessageCount.intValue() - 1)));
+                    //TODO Phase 4 Add a line containing the message text from the agent
+                    .addLine(createUnreadMessageText(unreadMessageCount.intValue() - 1)));
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                builder
+                    .setCategory(Notification.CATEGORY_MESSAGE);
+            }
 
             getNotificationManager(context).notify(ApplicationConstants.LP_PUSH_NOTIFICATION_ID, builder.build());
         }
@@ -197,7 +202,7 @@ public class LpFirebaseMessagingService extends FirebaseMessagingService {
          */
         private Notification.Builder createNotificationBuilder(Context ctx, String channelId, String channelName, boolean isHighImportance) {
             Notification.Builder builder;
-            if (Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.O) {
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
                 //Create the notification builder for the specified context
                 builder = new Notification.Builder(ctx);
             } else {
@@ -238,7 +243,7 @@ public class LpFirebaseMessagingService extends FirebaseMessagingService {
      * NOTE: A separate class is used because two of the callbacks used in this service implement the
      * same interface, namely ICallback.
      */
-    private class PushRegistrationHandler implements ICallback<Void, Exception> {
+    private static class PushRegistrationHandler implements ICallback<Void, Exception> {
         /**
          * Log the successful processing of the registration of the FCM token
          * @param empty the parameter, which is void.

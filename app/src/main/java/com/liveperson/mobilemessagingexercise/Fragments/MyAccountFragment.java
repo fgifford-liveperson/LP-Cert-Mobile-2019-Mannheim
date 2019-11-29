@@ -10,7 +10,7 @@ import com.liveperson.mobilemessagingexercise.MobileMessagingExerciseActivity;
 import com.liveperson.mobilemessagingexercise.R;
 
 /**********************************************************************************************
- * Class to initiate display of the My Account Screen using the LivePerson Fragment mechanism
+ * Class to initiate display of the My Account Screen using the LivePerson Fragment mechanism.
  *********************************************************************************************/
 public class MyAccountFragment extends MobileMessagingExerciseActivity {
     private static final String TAG = MyAccountFragment.class.getSimpleName();
@@ -34,9 +34,9 @@ public class MyAccountFragment extends MobileMessagingExerciseActivity {
     }
 
     /**
-     * Android callback invoked as the options menu is created
+     * Android callback invoked as the options menu is created.
      * @param menu the options menu in the toolbar
-     * @returns true, if the menu is to be displayed, and false otherwise
+     * @return true, if the menu is to be displayed, and false otherwise
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -47,7 +47,7 @@ public class MyAccountFragment extends MobileMessagingExerciseActivity {
     }
 
     /**
-     * Android callback invoked as an option is selected from the options menu
+     * Android callback invoked as an option is selected from the options menu.
      * @param item the selected menu item
      * @return true if the menu item has been processed here, and false otherwise
      */

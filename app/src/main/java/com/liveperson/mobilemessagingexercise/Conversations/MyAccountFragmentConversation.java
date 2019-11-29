@@ -39,18 +39,18 @@ public class MyAccountFragmentConversation implements Runnable, InitLivePersonCa
     private ConversationFragment lpConversationFragment;
 
     /**
-     * Convenience constructor
+     * Convenience constructor.
      * @param myAccountFragment the fragment container in which this conversation is to run
      * @param applicationStorage the singleton holding the shared storage for the app
      */
     public MyAccountFragmentConversation(MyAccountFragment myAccountFragment, ApplicationStorage applicationStorage) {
         this.myAccountFragment = myAccountFragment;
         this.applicationStorage = applicationStorage;
-        this.applicationInstance = (MobileMessagingExerciseApplication)myAccountFragment.getApplication();
+        this.applicationInstance = (MobileMessagingExerciseApplication) myAccountFragment.getApplication();
     }
 
     /**
-     * Run the My Account screen as a LivePerson conversation
+     * Run the My Account screen as a LivePerson conversation.
      */
     @Override
     public void run() {
@@ -66,7 +66,7 @@ public class MyAccountFragmentConversation implements Runnable, InitLivePersonCa
     }
 
     /**
-     * Set up and show the LivePerson conversation associated with the My Account screen
+     * Set up and show the LivePerson conversation associated with the My Account screen.
      * Invoked if initialization of LivePerson is successful
      */
     @Override
@@ -95,7 +95,7 @@ public class MyAccountFragmentConversation implements Runnable, InitLivePersonCa
     }
 
     /**
-     * Report an initialization error
+     * Report an initialization error.
      * Invoked if initialization of LivePerson fails
      * @param e the exception associated with the failure
      */
@@ -107,7 +107,7 @@ public class MyAccountFragmentConversation implements Runnable, InitLivePersonCa
     }
 
     /**
-     * Process the result of retrieving the Firebase FCM token for this app
+     * Process the result of retrieving the Firebase FCM token for this app.
      * @param task the task whose completion triggered this method being called
      */
     @Override
@@ -127,7 +127,7 @@ public class MyAccountFragmentConversation implements Runnable, InitLivePersonCa
     }
 
     /**
-     * Registration for push messages with LiveEngage was successful
+     * Registration for push messages with LiveEngage was successful.
      * @param aVoid the parameter for the successful registration
      */
     @Override
@@ -136,7 +136,7 @@ public class MyAccountFragmentConversation implements Runnable, InitLivePersonCa
     }
 
     /**
-     * Registration for push messages with LiveEngage failed
+     * Registration for push messages with LiveEngage failed.
      * @param e the Exception associated with the failure
      */
     public void onError(Exception e) {
