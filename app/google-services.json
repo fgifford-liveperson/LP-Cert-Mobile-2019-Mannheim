@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "290017039163",
+    "firebase_url": "https://lpcert-mobile-training-2019.firebaseio.com",
+    "project_id": "lpcert-mobile-training-2019",
+    "storage_bucket": "lpcert-mobile-training-2019.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:290017039163:android:756bdea5967c9ee46d1d1e",
+        "android_client_info": {
+          "package_name": "com.liveperson.mobilemessagingexercise"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "290017039163-kdt4hp86hbhqabmlehjulfo6prq3alrf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.liveperson.mobilemessagingexercise",
+            "certificate_hash": "2261eca43b9c8b27206aba6e6af86cf88c3f76b3"
+          }
+        },
+        {
+          "client_id": "290017039163-8afdnadh9dp7cj7ko5oj0sahop7fmuim.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB1Yua3HWX7ci7jmOm47I7lKDBbKoOHd7U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "290017039163-8afdnadh9dp7cj7ko5oj0sahop7fmuim.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

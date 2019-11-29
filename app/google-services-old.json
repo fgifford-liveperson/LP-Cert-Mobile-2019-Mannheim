@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "1038371886907",
+    "firebase_url": "https://lp-mobile-messaging-exercise.firebaseio.com",
+    "project_id": "lp-mobile-messaging-exercise",
+    "storage_bucket": "lp-mobile-messaging-exercise.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1038371886907:android:e86b268429b25ba4",
+        "android_client_info": {
+          "package_name": "com.liveperson.mobilemessagingexercise"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1038371886907-5ni63doe5mri8fog0dek6smovi24ctng.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBdgun4Qkis0OUwPoCBmdVwQAEuyGs0EcI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
