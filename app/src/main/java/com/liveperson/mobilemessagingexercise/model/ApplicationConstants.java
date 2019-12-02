@@ -1,16 +1,15 @@
 package com.liveperson.mobilemessagingexercise.model;
 
 /**
- * Store constants for the entire app, including any services
+ * Store constants for the entire app, including any services.
  */
 public class ApplicationConstants {
     public static final String BRAND_SERVER_URL = "http://livepersondummyidpmobilecert-env-4.g2iy94pv45.eu-central-1.elasticbeanstalk.com";
-    //"http://10.0.2.2:3000";
-    public static final String LIVE_PERSON_APP_ID = "com.liveperson.test";
+    public static final String LIVE_PERSON_APP_ID = "com.liveperson.mobilemessagingexercise";
     public static final String FCM_TOKEN_NAME = "fcmToken";
 
     //TODO - Replace with your app's LiveEngage account number
-    public static final String LIVE_PERSON_ACCOUNT_NUMBER = "68932071";
+    public static final String LIVE_PERSON_ACCOUNT_NUMBER = "20553802";
 
     //TODO C4M 1 - Replace with your app's LiveEngage App Installation ID
     public static final String LIVE_PERSON_APP_INSTALLATION_ID = "";

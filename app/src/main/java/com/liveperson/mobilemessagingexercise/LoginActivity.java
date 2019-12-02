@@ -18,7 +18,7 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONObject;
 
 /********************************************************************************
- * Class for the activity associated with the application Login screen
+ * Class for the activity associated with the application Login screen.
  * NOTE: This class also provides the listeners for click events for the controls
  * on the screen and for the response from the authentication process
  *******************************************************************************/
@@ -42,7 +42,7 @@ public class LoginActivity extends MobileMessagingExerciseActivity
     }
 
     /**
-     * Android callback invoked as the options menu is created
+     * Android callback invoked as the options menu is created.
      * @param menu the options menu in the toolbar
      * @returns true, if the menu is to be displayed, and false otherwise
      */
@@ -55,7 +55,7 @@ public class LoginActivity extends MobileMessagingExerciseActivity
     }
 
     /**
-     * Android callback invoked as an option is selected from the options menu
+     * Android callback invoked as an option is selected from the options menu.
      * @param item the selected menu item
      * @return true if the menu item has been processed here, and false otherwise
      */
@@ -81,7 +81,6 @@ public class LoginActivity extends MobileMessagingExerciseActivity
      * Log the user in
      * @param userId the user id to be used for login
      * @param password the password to be used for login
-     * @return true if the login was successful, and false otherwise
      */
     private void logUserIn(String userId, String password) {
         RequestQueue authenticationQueue = Volley.newRequestQueue(this);
@@ -101,16 +100,14 @@ public class LoginActivity extends MobileMessagingExerciseActivity
             //Send the authentication POST request
             authenticationQueue.add(authenticationRequest);
         }
-        catch(Exception e) {
+        catch (Exception e) {
             Log.e(TAG, e.getMessage());
             showToast(e.getMessage());
         }
-
-        return;
     }
 
     /**
-     * Handle click events for controls on the Login screen
+     * Handle click events for controls on the Login screen.
      * @param view the control on which the event occurred
      */
     public void onClick(View view) {
@@ -155,7 +152,7 @@ public class LoginActivity extends MobileMessagingExerciseActivity
     }
 
     /**
-     * Process responses from login requests that failed
+     * Process responses from login requests that failed.
      * @param error the error information associated with the failure
      */
     @Override
@@ -163,9 +160,6 @@ public class LoginActivity extends MobileMessagingExerciseActivity
         Log.e(TAG, "Call to login failed: " + error.getMessage());
         showToast("Unable to log in: " + error.getMessage());
         startWelcome();
-
-
-
     }
 
 }
