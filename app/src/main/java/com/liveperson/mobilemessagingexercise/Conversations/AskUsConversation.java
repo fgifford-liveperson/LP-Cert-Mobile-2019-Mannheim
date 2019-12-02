@@ -2,7 +2,6 @@ package com.liveperson.mobilemessagingexercise.Conversations;
 
 import android.app.Activity;
 import android.util.Log;
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.iid.FirebaseInstanceId;
@@ -33,18 +32,18 @@ public class AskUsConversation implements Runnable, InitLivePersonCallBack, OnCo
     private MobileMessagingExerciseApplication applicationInstance;
 
     /**
-     * Convenience constructor
+     * Convenience constructor.
      * @param hostContext the context of the activity in which the screen is to run
      * @param applicationStorage the singleton holding the shared storage for the app
      */
     public AskUsConversation(Activity hostContext, ApplicationStorage applicationStorage) {
         this.hostContext = hostContext;
         this.applicationStorage = applicationStorage;
-        this.applicationInstance = (MobileMessagingExerciseApplication)hostContext.getApplication();
+        this.applicationInstance = (MobileMessagingExerciseApplication) hostContext.getApplication();
     }
 
     /**
-     * Run the Ask Us screen as a LivePerson conversation
+     * Run the Ask Us screen as a LivePerson conversation.
      */
     @Override
     public void run() {
@@ -59,7 +58,7 @@ public class AskUsConversation implements Runnable, InitLivePersonCallBack, OnCo
     }
 
     /**
-     * Set up and show the LivePerson conversation associated with the Ask Us screen
+     * Set up and show the LivePerson conversation associated with the Ask Us screen.
      * Invoked if initialization of LivePerson is successful
      */
     @Override
@@ -93,7 +92,7 @@ public class AskUsConversation implements Runnable, InitLivePersonCallBack, OnCo
     }
 
     /**
-     * Report an initialization error
+     * Report an initialization error.
      * Invoked if initialization of LivePerson fails
      * @param e the exception associated with the failure
      */
@@ -114,7 +113,7 @@ public class AskUsConversation implements Runnable, InitLivePersonCallBack, OnCo
     }
 
     /**
-     * Process the result of retrieving the Firebase FCM token for this app
+     * Process the result of retrieving the Firebase FCM token for this app.
      * @param task the task whose completion triggered this method being called
      */
     @Override
@@ -136,7 +135,7 @@ public class AskUsConversation implements Runnable, InitLivePersonCallBack, OnCo
     }
 
     /**
-     * Registration for push messages with LiveEngage was successful
+     * Registration for push messages with LiveEngage was successful.
      * @param aVoid the parameter for the successful registration
      */
     @Override
@@ -145,7 +144,7 @@ public class AskUsConversation implements Runnable, InitLivePersonCallBack, OnCo
     }
 
     /**
-     * Registration for push messages with LiveEngage failed
+     * Registration for push messages with LiveEngage failed.
      * @param e the Exception associated with the failure
      */
     public void onError(Exception e) {
