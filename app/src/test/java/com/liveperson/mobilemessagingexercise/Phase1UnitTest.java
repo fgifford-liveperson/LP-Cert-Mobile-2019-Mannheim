@@ -11,7 +11,6 @@ import com.liveperson.infra.InitLivePersonProperties;
 import com.liveperson.infra.LPAuthenticationParams;
 import com.liveperson.messaging.sdk.api.LivePerson;
 import com.liveperson.messaging.sdk.api.callbacks.LogoutLivePersonCallback;
-import com.liveperson.messaging.sdk.api.model.ConsumerProfile;
 import com.liveperson.mobilemessagingexercise.ActivityRunners.ClearRunner;
 import com.liveperson.mobilemessagingexercise.Conversations.AskUsConversation;
 import com.liveperson.mobilemessagingexercise.model.ApplicationConstants;
@@ -21,15 +20,10 @@ import com.liveperson.mobilemessagingexercise.receivers.LivePersonBroadcastRecei
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.ArgumentMatcher;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
-
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
