@@ -53,19 +53,19 @@ import static org.mockito.ArgumentMatchers.eq;
 public class Phase4UnitTest {
 
     @Mock
-    public Notification.Builder builder = Mockito.mock(Notification.Builder.class);
+    public Notification.Builder builder;
 
     @Mock
-    public FirebaseInstanceId firebaseInstanceId = Mockito.mock(FirebaseInstanceId.class);
+    public FirebaseInstanceId firebaseInstanceId;
 
     @Mock
-    public FragmentManager fragmentManager = Mockito.mock(FragmentManager.class);
+    public FragmentManager fragmentManager;
 
     @Mock
-    public FragmentTransaction fragmentTransaction = Mockito.mock(FragmentTransaction.class);
+    public FragmentTransaction fragmentTransaction;
 
     @Mock
-    public Notification.InboxStyle inboxStyle = Mockito.mock(Notification.InboxStyle.class);
+    public Notification.InboxStyle inboxStyle;
 
     @Mock
     public Task<InstanceIdResult> instanceIdResultTask;
@@ -73,7 +73,7 @@ public class Phase4UnitTest {
     private final Map<String, String> messageData = Collections.singletonMap("key", "value");
 
     @Mock
-    public RemoteMessage remoteMessage = Mockito.mock(RemoteMessage.class);
+    public RemoteMessage remoteMessage;
 
     @Before
     public final void setUp() {
