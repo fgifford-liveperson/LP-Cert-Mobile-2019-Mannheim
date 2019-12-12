@@ -111,25 +111,6 @@ public class Phase1UnitTest {
     }
 
     @Test
-    public final void testAskUsConversationInitialize() throws Exception {
-        final InitLivePersonProperties initLivePersonProperties =
-                Mockito.mock(InitLivePersonProperties.class);
-        PowerMockito.mockStatic(LivePerson.class);
-        PowerMockito.whenNew(InitLivePersonProperties.class).withAnyArguments()
-                .thenReturn(initLivePersonProperties);
-        new AskUsConversation(activity, null).run();
-        PowerMockito.verifyNew(InitLivePersonProperties.class, Mockito.description(
-                "TODO Phase 1: Set up the properties needed by LivePerson initialization"))
-                .withArguments(
-                        eq(ApplicationConstants.LIVE_PERSON_ACCOUNT_NUMBER),
-                        eq(ApplicationConstants.LIVE_PERSON_APP_ID),
-                        any(AskUsConversation.class));
-        PowerMockito.verifyStatic(LivePerson.class,
-                Mockito.description("TODO Phase 1: Implement initialization of LivePerson"));
-        LivePerson.initialize(any(Context.class), eq(initLivePersonProperties));
-    }
-
-    @Test
     public final void testAskUsConversationOnInitSucceed() {
         final ApplicationStorage applicationStorage = ApplicationStorage.getInstance();
         PowerMockito.mockStatic(FirebaseInstanceId.class);
@@ -143,10 +124,5 @@ public class Phase1UnitTest {
                 applicationStorage.getFirstName().equals(argument.getFirstName())
                         && applicationStorage.getLastName().equals(argument.getLastName())
         ));
-        PowerMockito.verifyStatic(LivePerson.class, Mockito.description(
-                "TODO Phase 1: Show the specified conversation"));
-        LivePerson.showConversation(eq(activity),
-                any(LPAuthenticationParams.class),
-                any(ConversationViewParams.class));
     }
 }
