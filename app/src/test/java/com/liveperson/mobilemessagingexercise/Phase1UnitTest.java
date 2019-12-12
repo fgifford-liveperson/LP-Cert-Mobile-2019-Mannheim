@@ -18,8 +18,10 @@ import com.liveperson.mobilemessagingexercise.model.ApplicationStorage;
 import com.liveperson.mobilemessagingexercise.receivers.LivePersonBroadcastReceiver;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
@@ -37,6 +39,20 @@ import static org.mockito.ArgumentMatchers.eq;
 })
 @RunWith(PowerMockRunner.class)
 public class Phase1UnitTest {
+    @Mock
+    public Activity activity = Mockito.mock(Activity.class);
+
+    @Before
+    public final void setUp() {
+        Mockito.when(activity.getApplication())
+                .thenReturn(Mockito.mock(MobileMessagingExerciseApplication.class));
+        Mockito.doAnswer(invocation -> {
+                    ((Runnable) invocation.getArgument(0)).run();
+                    return null;
+                }
+        ).when(activity).runOnUiThread(any(Runnable.class));
+    }
+
     @Test
     public final void testApplicationConstants() {
         Assert.assertNotEquals(
@@ -63,7 +79,7 @@ public class Phase1UnitTest {
     @Test
     public final void testClearRunnerClearAndRun() {
         PowerMockito.mockStatic(LivePerson.class);
-        new ClearRunner(Mockito.mock(Activity.class), null).clearAndRun(null);
+        new ClearRunner(activity, null).clearAndRun(null);
         PowerMockito.verifyStatic(LivePerson.class,
                 Mockito.description("TODO Phase 1: Implement logout from LivePerson"));
         LivePerson.logOut(any(Context.class), anyString(), anyString(),
@@ -72,14 +88,6 @@ public class Phase1UnitTest {
 
     @Test
     public final void testClearRunnerOnLogoutSucceed() {
-        final Activity activity = Mockito.mock(Activity.class);
-        Mockito.when(activity.getApplication())
-                .thenReturn(Mockito.mock(MobileMessagingExerciseApplication.class));
-        Mockito.doAnswer(invocation -> {
-                    ((Runnable) invocation.getArgument(0)).run();
-                    return null;
-                }
-        ).when(activity).runOnUiThread(any(Runnable.class));
         final Runnable runnable = Mockito.mock(Runnable.class);
         final ClearRunner clearRunner = new ClearRunner(activity, null);
         clearRunner.clearAndRun(runnable);
@@ -95,7 +103,7 @@ public class Phase1UnitTest {
         PowerMockito.mockStatic(LivePerson.class);
         PowerMockito.whenNew(InitLivePersonProperties.class).withAnyArguments()
                 .thenReturn(initLivePersonProperties);
-        new AskUsConversation(Mockito.mock(Activity.class), null).run();
+        new AskUsConversation(activity, null).run();
         PowerMockito.verifyNew(InitLivePersonProperties.class, Mockito.description(
                 "TODO Phase 1: Set up the properties needed by LivePerson initialization"))
                 .withArguments(
@@ -109,9 +117,6 @@ public class Phase1UnitTest {
 
     @Test
     public final void testAskUsConversationOnInitSucceed() {
-        final Activity activity = Mockito.mock(Activity.class);
-        Mockito.when(activity.getApplication())
-                .thenReturn(Mockito.mock(MobileMessagingExerciseApplication.class));
         final ApplicationStorage applicationStorage = ApplicationStorage.getInstance();
         PowerMockito.mockStatic(LivePerson.class);
         new AskUsConversation(activity, applicationStorage).onInitSucceed();
