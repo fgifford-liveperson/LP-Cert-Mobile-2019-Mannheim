@@ -44,7 +44,7 @@ public class LoginActivity extends MobileMessagingExerciseActivity
     /**
      * Android callback invoked as the options menu is created.
      * @param menu the options menu in the toolbar
-     * @returns true, if the menu is to be displayed, and false otherwise
+     * @return true, if the menu is to be displayed, and false otherwise
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
