@@ -6,6 +6,9 @@ import android.content.IntentFilter;
 
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 import com.liveperson.infra.ConversationViewParams;
 import com.liveperson.infra.InitLivePersonProperties;
 import com.liveperson.infra.LPAuthenticationParams;
@@ -34,6 +37,7 @@ import static org.mockito.ArgumentMatchers.eq;
 
 @PrepareForTest({
         AskUsConversation.class,
+        FirebaseInstanceId.class,
         LivePerson.class,
         LocalBroadcastManager.class,
 })
@@ -42,8 +46,18 @@ public class Phase1UnitTest {
     @Mock
     public Activity activity = Mockito.mock(Activity.class);
 
+    @Mock
+    public FirebaseInstanceId firebaseInstanceId;
+
+    @Mock
+    public Task<InstanceIdResult> instanceIdResultTask;
+
     @Before
     public final void setUp() {
+        Mockito.when(instanceIdResultTask.getResult())
+                .thenReturn(Mockito.mock(InstanceIdResult.class));
+        Mockito.when(instanceIdResultTask.isSuccessful()).thenReturn(true);
+        Mockito.when(firebaseInstanceId.getInstanceId()).thenReturn(instanceIdResultTask);
         Mockito.when(activity.getApplication())
                 .thenReturn(Mockito.mock(MobileMessagingExerciseApplication.class));
         Mockito.doAnswer(invocation -> {
@@ -118,6 +132,8 @@ public class Phase1UnitTest {
     @Test
     public final void testAskUsConversationOnInitSucceed() {
         final ApplicationStorage applicationStorage = ApplicationStorage.getInstance();
+        PowerMockito.mockStatic(FirebaseInstanceId.class);
+        Mockito.when(FirebaseInstanceId.getInstance()).thenReturn(firebaseInstanceId);
         PowerMockito.mockStatic(LivePerson.class);
         new AskUsConversation(activity, applicationStorage).onInitSucceed();
         PowerMockito.verifyStatic(LivePerson.class,
