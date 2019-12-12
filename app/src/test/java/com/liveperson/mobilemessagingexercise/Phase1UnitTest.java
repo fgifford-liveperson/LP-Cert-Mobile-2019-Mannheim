@@ -44,7 +44,7 @@ import static org.mockito.ArgumentMatchers.eq;
 @RunWith(PowerMockRunner.class)
 public class Phase1UnitTest {
     @Mock
-    public Activity activity = Mockito.mock(Activity.class);
+    public Activity activity;
 
     @Mock
     public FirebaseInstanceId firebaseInstanceId;
