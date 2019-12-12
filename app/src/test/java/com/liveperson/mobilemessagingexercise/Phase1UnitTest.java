@@ -40,7 +40,7 @@ import static org.mockito.ArgumentMatchers.eq;
 @RunWith(PowerMockRunner.class)
 public class Phase1UnitTest {
     @Mock
-    public Activity activity = Mockito.mock(Activity.class);
+    public Activity activity;
 
     @Before
     public final void setUp() {
