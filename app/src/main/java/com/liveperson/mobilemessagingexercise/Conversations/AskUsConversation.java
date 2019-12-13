@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -17,7 +18,6 @@ import com.liveperson.infra.LPAuthenticationParams;
 import com.liveperson.infra.LPConversationsHistoryStateToDisplay;
 import com.liveperson.infra.MonitoringInitParams;
 import com.liveperson.infra.callbacks.InitLivePersonCallBack;
-import com.liveperson.infra.messaging_ui.fragment.IFeedbackActions;
 import com.liveperson.messaging.sdk.api.LivePerson;
 import com.liveperson.messaging.sdk.api.model.ConsumerProfile;
 import com.liveperson.mobilemessagingexercise.MobileMessagingExerciseApplication;
@@ -31,11 +31,9 @@ import com.liveperson.monitoring.sdk.callbacks.EngagementCallback;
 import com.liveperson.monitoring.sdk.callbacks.MonitoringErrorType;
 import com.liveperson.monitoring.sdk.responses.LPEngagementResponse;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.intellij.lang.annotations.Language;
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,14 +68,13 @@ public class AskUsConversation implements Runnable, InitLivePersonCallBack, OnCo
     @Override
     public void run() {
 
-        //TODO C4M unauth 2 Create MonitoringInitParams
-        MonitoringInitParams monitoringInitParams = null;
+        MonitoringInitParams monitoringInitParams = new MonitoringInitParams(ApplicationConstants.LIVE_PERSON_APP_INSTALLATION_ID);
 
-        //TODO C4M unauth 3 Add MonitoringInitParams to InitLivePersonProperties
-        //Set up the parameters needed for initializing LivePerson for messaging
+        //Set up the parameters needed for initializing LivePerson for messaging with C4M.
         InitLivePersonProperties initLivePersonProperties =
                 new InitLivePersonProperties(ApplicationConstants.LIVE_PERSON_ACCOUNT_NUMBER,
                         ApplicationConstants.LIVE_PERSON_APP_ID,
+                        monitoringInitParams,
                         this);
 
         //Initialize LivePerson
@@ -109,35 +106,68 @@ public class AskUsConversation implements Runnable, InitLivePersonCallBack, OnCo
         authParams.addCertificatePinningKey("");
 
 
-        //TODO C4M unauth 4  Creating Identities array and LPMonitoringIdentity
+        //Creating Identities array and LPMonitoringIdentity
         ArrayList<LPMonitoringIdentity> identityList = new ArrayList<>();
+        final LPMonitoringIdentity monitoringIdentity = new LPMonitoringIdentity();
+        identityList.add(monitoringIdentity);
 
+        //Create Monitoring Params, Engagement Attributes and Entry Points
+        @Language("json")
+        final String entryPointString = "[\"unauth\"]";
 
-        //TODO C4M unauth 5 Create Monitoring Params, Engagement Attributes and Entry Points
-        MonitoringParams monitoringParams = null;
+        // Creating engagement attributes
+        @Language("json")
+        final String engagementAttributeString = "[\n"
+                + "  {\n"
+                + "    \"type\": \"purchase\",\n"
+                + "    \"total\": 11.7,\n"
+                + "    \"orderId\": \"Dx342\"\n"
+                + "  }\n"
+                + "]";
 
-        //TODO C4M unauth 6 Invoke getEngagement
+        JSONArray entryPoints = new JSONArray();
+        JSONArray engagementAttributes = new JSONArray();
+
+        try {
+            entryPoints = new JSONArray(entryPointString);
+            engagementAttributes = new JSONArray(engagementAttributeString);
+        } catch (final JSONException e) {
+            Log.w(TAG, e.getLocalizedMessage(), e);
+        }
+
+        final MonitoringParams monitoringParams = new MonitoringParams("PageId", entryPoints, engagementAttributes);
+
+        //Invoke getEngagement
         LivepersonMonitoring.getEngagement(hostContext, identityList, monitoringParams, new EngagementCallback() {
             @Override
-            public void onSuccess(@NotNull LPEngagementResponse lpEngagementResponse) {
+            public void onSuccess(@NonNull LPEngagementResponse lpEngagementResponse) {
                 final List<EngagementDetails> engagementDetails = lpEngagementResponse.getEngagementDetailsList();
                 if (engagementDetails != null && !engagementDetails.isEmpty()) {
 
 
-                    //TODO C4M unauth 7 Construct CampaignInfo Object
+                    //Construct CampaignInfo Object
+                    final Long campaignID = Long.parseLong(engagementDetails.get(0).getCampaignId());
+                    final Long engagementId = Long.parseLong(engagementDetails.get(0).getEngagementId());
+                    final String contextId = engagementDetails.get(0).getContextId();
 
+                    final String sessionId  = lpEngagementResponse.getSessionId();
+                    final String visitorId = lpEngagementResponse.getVisitorId();
 
                     try {
-
+                        final CampaignInfo campaignInfo = new CampaignInfo(campaignID,
+                                engagementId,
+                                contextId,
+                                sessionId,
+                                visitorId);
 
                         //Set up the conversation view parameters
                         conversationViewParams = new ConversationViewParams(false);
                         conversationViewParams.setHistoryConversationsStateToDisplay(LPConversationsHistoryStateToDisplay.ALL);
 
-                        //TODO  C4M unauth 8 set CampaignInfo Object in conversationViewParam
+                        //Set CampaignInfo Object in conversationViewParam
+                        conversationViewParams.setCampaignInfo(campaignInfo);
 
-                        //TODO  C4M unauth 9 set CampaignInfo Object in conversationViewParam
-
+                        LivePerson.showConversation(hostContext, authParams, conversationViewParams);
 
                         FirebaseInstanceId.getInstance().getInstanceId().addOnCompleteListener(AskUsConversation.this);
 
@@ -152,7 +182,7 @@ public class AskUsConversation implements Runnable, InitLivePersonCallBack, OnCo
             }
 
             @Override
-            public void onError(@NotNull MonitoringErrorType errorType, @NonNull Exception exception) {
+            public void onError(@NonNull MonitoringErrorType errorType, @Nullable Exception exception) {
                 //Handle Exception
                 Log.w(TAG, "Error " + errorType + ": " + exception, exception);
             }
