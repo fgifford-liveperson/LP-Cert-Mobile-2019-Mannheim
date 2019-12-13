@@ -59,25 +59,25 @@ public class MyAccountFragmentConversation implements Runnable, InitLivePersonCa
     private ConversationFragment lpConversationFragment;
 
     /**
-     * Convenience constructor
+     * Convenience constructor.
      * @param myAccountFragment the fragment container in which this conversation is to run
      * @param applicationStorage the singleton holding the shared storage for the app
      */
     public MyAccountFragmentConversation(MyAccountFragment myAccountFragment, ApplicationStorage applicationStorage) {
         this.myAccountFragment = myAccountFragment;
         this.applicationStorage = applicationStorage;
-        this.applicationInstance = (MobileMessagingExerciseApplication)myAccountFragment.getApplication();
+        this.applicationInstance = (MobileMessagingExerciseApplication) myAccountFragment.getApplication();
     }
 
 
     /**
-     * Run the My Account screen as a LivePerson conversation
+     * Run the My Account screen as a LivePerson conversation.
      */
     @Override
     public void run() {
 
         //TODO C4M auth 2 Create MonitoringInitParams
-        MonitoringInitParams monitoringInitParams = null;
+        final MonitoringInitParams monitoringInitParams = null;
 
         //TODO C4M auth 3 Add MonitoringInitParams to InitLivePersonProperties
         //Set up the parameters needed for initializing LivePerson
@@ -87,12 +87,12 @@ public class MyAccountFragmentConversation implements Runnable, InitLivePersonCa
                         this);
 
         //Initialize LivePerson for the My Account screen
-        LivePerson.initialize(this.myAccountFragment, initLivePersonProperties);
+        LivePerson.initialize(myAccountFragment, initLivePersonProperties);
 
     }
 
     /**
-     * Set up and show the LivePerson conversation associated with the My Account screen
+     * Set up and show the LivePerson conversation associated with the My Account screen.
      * Invoked if initialization of LivePerson is successful
      */
     @Override
@@ -109,37 +109,37 @@ public class MyAccountFragmentConversation implements Runnable, InitLivePersonCa
         authParams.setHostAppJWT(applicationStorage.getJwt());
 
         //TODO C4M auth 4 Create identities array and LPMonitoringIdentity
-        ArrayList<LPMonitoringIdentity> identityList = null;
-        LPMonitoringIdentity monitoringIdentity;
+        final ArrayList<LPMonitoringIdentity> identityList = null;
+        final LPMonitoringIdentity monitoringIdentity;
 
 
         //TODO C4M auth 5 Create Monitoring Params, Engagement Attributes and Entry Points
-        JSONArray entryPoints = new JSONArray();
+        final JSONArray entryPoints = new JSONArray();
 
 
         // Creating engagement attributes
-        JSONArray engagementAttriutes = new JSONArray();
-        JSONObject purchase = new JSONObject();
-        JSONObject lead = new JSONObject();
+        final JSONArray engagementAttributes = new JSONArray();
+        final JSONObject purchase = new JSONObject();
+        final JSONObject lead = new JSONObject();
 
 
-        engagementAttriutes.put(purchase);
-        // engagementAttriutes.put(lead);
+        engagementAttributes.put(purchase);
+        // engagementAttributes.put(lead);
 
-        MonitoringParams monitoringParams = new MonitoringParams("PageId", entryPoints, engagementAttriutes);
+        final MonitoringParams monitoringParams = new MonitoringParams("PageId", entryPoints, engagementAttributes);
 
-        //TODO C4M auth 6 Invoke getEnagement
-        LivepersonMonitoring.getEngagement(this.myAccountFragment.getBaseContext(), identityList, monitoringParams, new EngagementCallback() {
+        //TODO C4M auth 6 Invoke getEngagement
+        LivepersonMonitoring.getEngagement(myAccountFragment.getBaseContext(), identityList, monitoringParams, new EngagementCallback() {
             @Override
             public void onSuccess(@NotNull LPEngagementResponse lpEngagementResponse) {
 
                 if(lpEngagementResponse.getEngagementDetailsList().size() > 0){
-                    List<EngagementDetails> engagementDetails = lpEngagementResponse.getEngagementDetailsList();
+                    final List<EngagementDetails> engagementDetails = lpEngagementResponse.getEngagementDetailsList();
 
                     //TODO C4M auth 7 Construct CampaignInfo Object
-                    Long campaignID = null;
-                    Long engagementId = null;
-                    String contextId = null;
+                    Long campaignID = 0L;
+                    Long engagementId = 0L;
+                    String contextId = "";
 
                     String sessionId  = null;
                     String visitorId = null;
@@ -172,9 +172,9 @@ public class MyAccountFragmentConversation implements Runnable, InitLivePersonCa
                         FirebaseInstanceId.getInstance().getInstanceId().addOnCompleteListener(MyAccountFragmentConversation.this);
 
 
-                    }catch (Exception e){
+                    } catch (final Exception e) {
                         //Handle Exception
-                        e.printStackTrace();
+                        Log.w(e.getLocalizedMessage(), e);
                     }
 
                 }
@@ -184,7 +184,7 @@ public class MyAccountFragmentConversation implements Runnable, InitLivePersonCa
             @Override
             public void onError(@NotNull MonitoringErrorType errorType, @Nullable Exception exception) {
                 //Handle Exception
-                exception.printStackTrace();
+                Log.w(exception.getLocalizedMessage(), exception);
             }
         });
 
@@ -193,7 +193,7 @@ public class MyAccountFragmentConversation implements Runnable, InitLivePersonCa
     }
 
     /**
-     * Report an initialization error
+     * Report an initialization error.
      * Invoked if initialization of LivePerson fails
      * @param e the exception associated with the failure
      */
@@ -205,7 +205,7 @@ public class MyAccountFragmentConversation implements Runnable, InitLivePersonCa
     }
 
     /**
-     * Process the result of retrieving the Firebase FCM token for this app
+     * Process the result of retrieving the Firebase FCM token for this app.
      * @param task the task whose completion triggered this method being called
      */
     @Override
@@ -227,7 +227,7 @@ public class MyAccountFragmentConversation implements Runnable, InitLivePersonCa
     }
 
     /**
-     * Registration for push messages with LiveEngage was successful
+     * Registration for push messages with LiveEngage was successful.
      * @param aVoid the parameter for the successful registration
      */
     @Override
@@ -236,11 +236,11 @@ public class MyAccountFragmentConversation implements Runnable, InitLivePersonCa
     }
 
     /**
-     * Registration for push messages with LiveEngage failed
+     * Registration for push messages with LiveEngage failed.
      * @param e the Exception associated with the failure
      */
     public void onError(Exception e) {
-        Log.d(TAG, "Unable to register for push notifications");
+        Log.d(TAG, "Unable to register for push notifications", e);
     }
 
     /**

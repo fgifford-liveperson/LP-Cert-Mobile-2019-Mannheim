@@ -3,6 +3,8 @@ package com.liveperson.mobilemessagingexercise.Conversations;
 import android.app.Activity;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.iid.FirebaseInstanceId;
@@ -52,31 +54,30 @@ public class AskUsConversation implements Runnable, InitLivePersonCallBack, OnCo
     private MobileMessagingExerciseApplication applicationInstance;
 
     /**
-     * Convenience constructor
+     * Convenience constructor.
      * @param hostContext the context of the activity in which the screen is to run
      * @param applicationStorage the singleton holding the shared storage for the app
      */
     public AskUsConversation(Activity hostContext, ApplicationStorage applicationStorage) {
         this.hostContext = hostContext;
         this.applicationStorage = applicationStorage;
-        this.applicationInstance = (MobileMessagingExerciseApplication)hostContext.getApplication();
+        this.applicationInstance = (MobileMessagingExerciseApplication) hostContext.getApplication();
     }
 
     /**
-     * Run the Ask Us screen as a LivePerson conversation
+     * Run the Ask Us screen as a LivePerson conversation.
      */
     @Override
     public void run() {
 
         //TODO C4M unauth 2 Create MonitoringInitParams
-        MonitoringInitParams monitoringInitParams = new MonitoringInitParams(ApplicationConstants.LIVE_PERSON_APP_INSTALLATION_ID);
+        MonitoringInitParams monitoringInitParams = null;
 
         //TODO C4M unauth 3 Add MonitoringInitParams to InitLivePersonProperties
         //Set up the parameters needed for initializing LivePerson for messaging
         InitLivePersonProperties initLivePersonProperties =
                 new InitLivePersonProperties(ApplicationConstants.LIVE_PERSON_ACCOUNT_NUMBER,
                         ApplicationConstants.LIVE_PERSON_APP_ID,
-                        monitoringInitParams,
                         this);
 
         //Initialize LivePerson
@@ -84,7 +85,7 @@ public class AskUsConversation implements Runnable, InitLivePersonCallBack, OnCo
     }
 
     /**
-     * Set up and show the LivePerson conversation associated with the Ask Us screen
+     * Set up and show the LivePerson conversation associated with the Ask Us screen.
      * Invoked if initialization of LivePerson is successful
      */
     @Override
@@ -110,72 +111,40 @@ public class AskUsConversation implements Runnable, InitLivePersonCallBack, OnCo
 
         //TODO C4M unauth 4  Creating Identities array and LPMonitoringIdentity
         ArrayList<LPMonitoringIdentity> identityList = new ArrayList<>();
-        LPMonitoringIdentity monitoringIdentity = new LPMonitoringIdentity();
-        identityList.add(monitoringIdentity);
+
 
         //TODO C4M unauth 5 Create Monitoring Params, Engagement Attributes and Entry Points
-        JSONArray entryPoints = new JSONArray();
-        entryPoints.put("unauth");
+        MonitoringParams monitoringParams = null;
 
-        // Creating engagement attributes
-        JSONArray engagementAttriutes = new JSONArray();
-        JSONObject purchase = new JSONObject();
-        JSONObject lead = new JSONObject();
-        try {
-            purchase.put("type", "purchase");
-            purchase.put("total", 11.7);
-            purchase.put("orderId", "Dx342");
-
-           // lead.put("leadId", "xyz123");
-           // lead.put("value", 10500);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        engagementAttriutes.put(purchase);
-       // engagementAttriutes.put(lead);
-
-        MonitoringParams monitoringParams = new MonitoringParams("PageId", entryPoints, engagementAttriutes);
-
-        //TODO C4M unauth 6 Invoke getEnagement
+        //TODO C4M unauth 6 Invoke getEngagement
         LivepersonMonitoring.getEngagement(hostContext, identityList, monitoringParams, new EngagementCallback() {
             @Override
             public void onSuccess(@NotNull LPEngagementResponse lpEngagementResponse) {
+                final List<EngagementDetails> engagementDetails = lpEngagementResponse.getEngagementDetailsList();
+                if (engagementDetails != null && !engagementDetails.isEmpty()) {
 
-                if(lpEngagementResponse.getEngagementDetailsList().size() > 0){
-                    List<EngagementDetails> engagementDetails = lpEngagementResponse.getEngagementDetailsList();
 
                     //TODO C4M unauth 7 Construct CampaignInfo Object
-                    Long campaignID = Long.parseLong(engagementDetails.get(0).getCampaignId());
-                    Long engagementId = Long.parseLong(engagementDetails.get(0).getEngagementId());
-                    String contextId = engagementDetails.get(0).getContextId();
 
-                    String sessionId  = lpEngagementResponse.getSessionId();
-                    String visitorId = lpEngagementResponse.getVisitorId();
 
                     try {
-                        CampaignInfo campaignInfo= new CampaignInfo(campaignID,
-                                engagementId,
-                                contextId,
-                                sessionId,
-                                visitorId);
+
 
                         //Set up the conversation view parameters
                         conversationViewParams = new ConversationViewParams(false);
                         conversationViewParams.setHistoryConversationsStateToDisplay(LPConversationsHistoryStateToDisplay.ALL);
 
                         //TODO  C4M unauth 8 set CampaignInfo Object in conversationViewParam
-                        conversationViewParams.setCampaignInfo(campaignInfo);
 
                         //TODO  C4M unauth 9 set CampaignInfo Object in conversationViewParam
-                        LivePerson.showConversation(hostContext, authParams, conversationViewParams);
+
 
                         FirebaseInstanceId.getInstance().getInstanceId().addOnCompleteListener(AskUsConversation.this);
 
 
-                    }catch (Exception e){
+                    } catch (Exception e) {
                         //Handle Exception
-                        e.printStackTrace();
+                        Log.w(TAG, e.getLocalizedMessage(), e);
                     }
 
                 }
@@ -183,9 +152,9 @@ public class AskUsConversation implements Runnable, InitLivePersonCallBack, OnCo
             }
 
             @Override
-            public void onError(@NotNull MonitoringErrorType errorType, @Nullable Exception exception) {
+            public void onError(@NotNull MonitoringErrorType errorType, @NonNull Exception exception) {
                 //Handle Exception
-                exception.printStackTrace();
+                Log.w(TAG, "Error " + errorType + ": " + exception, exception);
             }
         });
 
@@ -194,7 +163,7 @@ public class AskUsConversation implements Runnable, InitLivePersonCallBack, OnCo
     }
 
     /**
-     * Report an initialization error
+     * Report an initialization error.
      * Invoked if initialization of LivePerson fails
      * @param e the exception associated with the failure
      */
@@ -215,7 +184,7 @@ public class AskUsConversation implements Runnable, InitLivePersonCallBack, OnCo
     }
 
     /**
-     * Process the result of retrieving the Firebase FCM token for this app
+     * Process the result of retrieving the Firebase FCM token for this app.
      * @param task the task whose completion triggered this method being called
      */
     @Override
@@ -237,7 +206,7 @@ public class AskUsConversation implements Runnable, InitLivePersonCallBack, OnCo
     }
 
     /**
-     * Registration for push messages with LiveEngage was successful
+     * Registration for push messages with LiveEngage was successful.
      * @param aVoid the parameter for the successful registration
      */
     @Override
@@ -246,11 +215,11 @@ public class AskUsConversation implements Runnable, InitLivePersonCallBack, OnCo
     }
 
     /**
-     * Registration for push messages with LiveEngage failed
+     * Registration for push messages with LiveEngage failed.
      * @param e the Exception associated with the failure
      */
     public void onError(Exception e) {
-        Log.d(TAG, "Unable to register for push notifications");
+        Log.d(TAG, "Unable to register for push notifications", e);
     }
 
 }
