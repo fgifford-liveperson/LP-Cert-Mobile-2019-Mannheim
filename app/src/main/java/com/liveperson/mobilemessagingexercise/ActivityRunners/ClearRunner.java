@@ -3,6 +3,7 @@ package com.liveperson.mobilemessagingexercise.ActivityRunners;
 import android.app.Activity;
 import android.util.Log;
 
+import com.liveperson.infra.ICallback;
 import com.liveperson.messaging.sdk.api.LivePerson;
 import com.liveperson.messaging.sdk.api.callbacks.LogoutLivePersonCallback;
 import com.liveperson.mobilemessagingexercise.MobileMessagingExerciseApplication;
@@ -40,8 +41,20 @@ public class ClearRunner implements LogoutLivePersonCallback {
         this.runnable = runnable;
 
         //Unregister from push notifications
-        LivePerson.unregisterLPPusher(ApplicationConstants.LIVE_PERSON_ACCOUNT_NUMBER, ApplicationConstants.LIVE_PERSON_APP_ID);
-        showToast("Unregistered from push notifications");
+        LivePerson.unregisterLPPusher(
+                ApplicationConstants.LIVE_PERSON_ACCOUNT_NUMBER,
+                ApplicationConstants.LIVE_PERSON_APP_ID,
+                new ICallback<Void, Exception>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        showToast("Unregistered from push notifications");
+                    }
+
+                    @Override
+                    public void onError(Exception e) {
+                        Log.w(TAG, e.getLocalizedMessage(), e);
+                    }
+                });
 
         //Log out from LivePerson, clearing any existing conversation
         LivePerson.logOut(hostContext, ApplicationConstants.LIVE_PERSON_ACCOUNT_NUMBER,
