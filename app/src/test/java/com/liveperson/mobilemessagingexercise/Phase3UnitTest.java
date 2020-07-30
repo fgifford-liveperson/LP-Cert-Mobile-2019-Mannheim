@@ -7,8 +7,8 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.liveperson.infra.ConversationViewParams;
 import com.liveperson.infra.InitLivePersonProperties;
-import com.liveperson.infra.LPAuthenticationParams;
 import com.liveperson.infra.MonitoringInitParams;
+import com.liveperson.infra.auth.LPAuthenticationType;
 import com.liveperson.messaging.sdk.api.LivePerson;
 import com.liveperson.mobilemessagingexercise.Conversations.MyAccountConversation;
 import com.liveperson.mobilemessagingexercise.model.ApplicationConstants;
@@ -72,7 +72,7 @@ public class Phase3UnitTest {
                             argument);
                     Assert.assertEquals(
                             "TODO Phase 3: Set up the authentication parameters for an authenticated conversation",
-                            LPAuthenticationParams.LPAuthenticationType.AUTH,
+                            LPAuthenticationType.AUTH,
                             argument.getAuthType());
                     return true;
                 }),
