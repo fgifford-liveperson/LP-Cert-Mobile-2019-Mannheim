@@ -8,8 +8,9 @@ import com.google.android.gms.tasks.Task;
 import com.liveperson.infra.ConversationViewParams;
 import com.liveperson.infra.ICallback;
 import com.liveperson.infra.InitLivePersonProperties;
-import com.liveperson.infra.LPAuthenticationParams;
 import com.liveperson.infra.LPConversationsHistoryStateToDisplay;
+import com.liveperson.infra.auth.LPAuthenticationParams;
+import com.liveperson.infra.auth.LPAuthenticationType;
 import com.liveperson.infra.callbacks.InitLivePersonCallBack;
 import com.liveperson.messaging.sdk.api.LivePerson;
 import com.liveperson.mobilemessagingexercise.MobileMessagingExerciseApplication;
@@ -67,7 +68,7 @@ public class MyAccountConversation implements Runnable, InitLivePersonCallBack {
         showToast("LivePerson SDK initialize completed");
 
         //Set up the authentication parameters
-        authParams = new LPAuthenticationParams(LPAuthenticationParams.LPAuthenticationType.AUTH);
+        authParams = new LPAuthenticationParams(LPAuthenticationType.AUTH);
         authParams.setAuthKey("");
         authParams.addCertificatePinningKey("");
         authParams.setHostAppJWT(applicationStorage.getJwt());
