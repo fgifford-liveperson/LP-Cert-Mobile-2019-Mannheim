@@ -81,7 +81,7 @@ public class LpFirebaseMessagingService extends FirebaseMessagingService {
             if (pushMessage != null) {
                 //The message contains a valid LivePerson push message, so read the
                 //number of unread LiveEngage messages
-                LivePerson.getNumUnreadMessages(ApplicationConstants.LIVE_PERSON_APP_ID, unreadMessagesHandler);
+                LivePerson.getUnreadMessagesCount(ApplicationConstants.LIVE_PERSON_APP_ID, unreadMessagesHandler);
             }
         }
 
@@ -181,7 +181,7 @@ public class LpFirebaseMessagingService extends FirebaseMessagingService {
                     .setPriority(Notification.PRIORITY_HIGH)
                     .setStyle(new Notification.InboxStyle()
                     .addLine(pushMessage.getMessage())
-                    .addLine(createUnreadMessageText(unreadMessageCount.intValue() - 1)));
+                    .addLine(createUnreadMessageText(unreadMessageCount - 1)));
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 builder
                     .setCategory(Notification.CATEGORY_MESSAGE);
