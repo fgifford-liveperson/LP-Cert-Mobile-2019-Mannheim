@@ -77,14 +77,13 @@ public class MyAccountFragmentConversation implements Runnable, InitLivePersonCa
     @Override
     public void run() {
 
-        //TODO C4M auth 2 Create MonitoringInitParams
-        final MonitoringInitParams monitoringInitParams = null;
+        final MonitoringInitParams monitoringInitParams = new MonitoringInitParams(ApplicationConstants.LIVE_PERSON_APP_INSTALLATION_ID);
 
-        //TODO C4M auth 3 Add MonitoringInitParams to InitLivePersonProperties
         //Set up the parameters needed for initializing LivePerson
         InitLivePersonProperties initLivePersonProperties =
                 new InitLivePersonProperties(ApplicationConstants.LIVE_PERSON_ACCOUNT_NUMBER,
                         ApplicationConstants.LIVE_PERSON_APP_ID,
+                        monitoringInitParams,
                         this);
 
         //Initialize LivePerson for the My Account screen
@@ -109,27 +108,36 @@ public class MyAccountFragmentConversation implements Runnable, InitLivePersonCa
         authParams.addCertificatePinningKey("");
         authParams.setHostAppJWT(applicationStorage.getJwt());
 
-        //TODO C4M auth 4 Create identities array and LPMonitoringIdentity
-        final ArrayList<LPMonitoringIdentity> identityList = null;
-        final LPMonitoringIdentity monitoringIdentity;
+        final ArrayList<LPMonitoringIdentity> identityList = new ArrayList<>();
+        final LPMonitoringIdentity monitoringIdentity = new LPMonitoringIdentity("consumerId","issuer");
 
+        identityList.add(monitoringIdentity);
 
-        //TODO C4M auth 5 Create Monitoring Params, Engagement Attributes and Entry Points
         final JSONArray entryPoints = new JSONArray();
 
+        entryPoints.put("homepage");
 
         // Creating engagement attributes
         final JSONArray engagementAttributes = new JSONArray();
         final JSONObject purchase = new JSONObject();
-        final JSONObject lead = new JSONObject();
+//        final JSONObject lead = new JSONObject();
 
+        try {
+            purchase.put("type", "purchase");
+            purchase.put("total", 11.7);
+            purchase.put("orderId", "Dx342");
+
+//            lead.put("leadId", "xyz123");
+//            lead.put("value", 10500);
+        } catch (final JSONException e) {
+            Log.d(TAG, e.getLocalizedMessage(), e);
+        }
 
         engagementAttributes.put(purchase);
-        // engagementAttributes.put(lead);
+//        engagementAttributes.put(lead);
 
         final MonitoringParams monitoringParams = new MonitoringParams("PageId", entryPoints, engagementAttributes);
 
-        //TODO C4M auth 6 Invoke getEngagement
         LivepersonMonitoring.getEngagement(myAccountFragment.getBaseContext(), identityList, monitoringParams, new EngagementCallback() {
             @Override
             public void onSuccess(@NotNull LPEngagementResponse lpEngagementResponse) {
@@ -137,13 +145,12 @@ public class MyAccountFragmentConversation implements Runnable, InitLivePersonCa
                 if(lpEngagementResponse.getEngagementDetailsList().size() > 0){
                     final List<EngagementDetails> engagementDetails = lpEngagementResponse.getEngagementDetailsList();
 
-                    //TODO C4M auth 7 Construct CampaignInfo Object
-                    Long campaignID = 0L;
-                    Long engagementId = 0L;
-                    String contextId = "";
+                    Long campaignID = Long.parseLong(engagementDetails.get(0).getCampaignId());
+                    Long engagementId = Long.parseLong(engagementDetails.get(0).getEngagementId());
+                    String contextId = engagementDetails.get(0).getContextId();
 
-                    String sessionId  = null;
-                    String visitorId = null;
+                    String sessionId  = lpEngagementResponse.getSessionId();
+                    String visitorId = lpEngagementResponse.getVisitorId();
 
                     try {
                         CampaignInfo campaignInfo= new CampaignInfo(campaignID,
@@ -156,9 +163,8 @@ public class MyAccountFragmentConversation implements Runnable, InitLivePersonCa
                         conversationViewParams = new ConversationViewParams(false);
                         conversationViewParams.setHistoryConversationsStateToDisplay(LPConversationsHistoryStateToDisplay.ALL);
 
-                        //TODO  C4M auth 8 set CampaignInfo Object in conversationViewParam
+                        conversationViewParams.setCampaignInfo(campaignInfo);
 
-                        //TODO  C4M auth 9 set CampaignInfo Object in conversationViewParam
                         //Create the fragment that holds the LivePerson conversation
                         lpConversationFragment = (ConversationFragment) LivePerson.getConversationFragment(authParams, conversationViewParams);
 
@@ -185,7 +191,7 @@ public class MyAccountFragmentConversation implements Runnable, InitLivePersonCa
             @Override
             public void onError(@NotNull MonitoringErrorType errorType, @Nullable Exception exception) {
                 //Handle Exception
-                Log.w(exception.getLocalizedMessage(), exception);
+                Log.w(TAG, exception == null ? errorType.toString() : exception.getLocalizedMessage(), exception);
             }
         });
 
