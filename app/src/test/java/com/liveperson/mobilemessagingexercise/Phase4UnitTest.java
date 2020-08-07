@@ -131,7 +131,7 @@ public class Phase4UnitTest {
                 eq(ApplicationConstants.LIVE_PERSON_ACCOUNT_NUMBER), anyBoolean());
         PowerMockito.verifyStatic(LivePerson.class, Mockito.description(
                 "TODO Phase 4: Get the count of unread messages"));
-        LivePerson.getNumUnreadMessages(eq(ApplicationConstants.LIVE_PERSON_APP_ID), eq(null));
+        LivePerson.getUnreadMessagesCount(eq(ApplicationConstants.LIVE_PERSON_APP_ID), eq(null));
     }
 
     @Test
@@ -155,7 +155,7 @@ public class Phase4UnitTest {
             unreadMessagesHandler.getValue().onSuccess(1);
             return null;
         }).when(LivePerson.class);
-        LivePerson.getNumUnreadMessages(anyString(), unreadMessagesHandler.capture());
+        LivePerson.getUnreadMessagesCount(anyString(), unreadMessagesHandler.capture());
         PowerMockito.whenNew(Notification.Builder.class).withAnyArguments().thenReturn(builder);
         PowerMockito.whenNew(Notification.InboxStyle.class).withAnyArguments().thenReturn(inboxStyle);
         lpFirebaseMessagingService.onCreate();
@@ -183,7 +183,7 @@ public class Phase4UnitTest {
             unreadMessagesHandler.getValue().onSuccess(1);
             return null;
         }).when(LivePerson.class);
-        LivePerson.getNumUnreadMessages(anyString(), unreadMessagesHandler.capture());
+        LivePerson.getUnreadMessagesCount(anyString(), unreadMessagesHandler.capture());
         PowerMockito.whenNew(Notification.Builder.class).withAnyArguments().thenReturn(builder);
         PowerMockito.whenNew(Notification.InboxStyle.class).withAnyArguments()
                 .thenReturn(inboxStyle);
